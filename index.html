@@ -1,0 +1,173 @@
+<!doctype html>
+<html ng-app="filmsApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Pelis EOI</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./libs/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="./css/main_proyecto_final.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+    
+
+
+</head>
+
+
+<body ng-controller="homeController">
+    <nav>
+        <div class="container">
+            <div class="row navbar-row">
+                <div class="navbar-img col-lg-2">
+                    <img src="./img/Logo.png" alt="Imagen logo">
+                </div>
+                <div class="col-lg-6 navbar-menu">
+                    <ul>
+                        <li>
+                            <button href="" ng-click="pelisPop()">Descubrir</a>
+                        </li>
+                        <li>
+                            <button href="" ng-click="pelisProx()">Proximamente</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 input-group navbar-browser">
+
+                    <input type="text" ng-keyup="toSearch()" ng-model="searchParams.searchFilm" class="form-control" placeholder="Encuentra tu película favorita"
+                        aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+    <section id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="filter" class="col-lg-3 filters">
+                    <div class="filters-header col-lg-12">
+                        <div class="filter-icon">
+                            <img src="./img/Refine_Icon.png" alt="" width="27" heigth="25">
+                        </div>
+                        <button ng-click="gensFilter()" class="filtrar">Filtrar</button>
+                        <button ng-click="filterClear()" class="borrar">Borrar</button>
+                    </div>
+
+
+                    <div class="filters-label col-lg-12">
+
+                        <p>Géneros</p>
+                        <br>
+
+                    </div>
+                    <div class="filter-gender">
+
+
+                        <div ng-repeat="genero in generos">
+                            <div>
+                                <button ng-click="addgenre(genero.id)" type="button" class="btn btn-default" ng-class="{marked : isSelected(genero.id)}"> {{genero.name}} </button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-lg-9 display">
+                    <div class="display-header">
+                        <p>{{films.total_results}} películas encontradas</p>
+                    </div>
+                    <div class="display-content">
+
+                        <div class="imgRe" ng-repeat="film in films.results " ng-click="details(film.id); movieTrailer(film.id)">
+                            <div>
+                                <div data-content="{{film.vote_average}}" class="image">
+                                    <img ng-click="" ng-src="https://image.tmdb.org/t/p/w500/{{film.poster_path}}" alt="" width="269" height="403px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="myModal {{modalState}} col-lg-12">
+        <div ng-click="modalState = 'off'" class="modal-close col-lg-2">
+
+        </div>
+        <div class="modal-content col-lg-10">
+            <div class="modal-header">
+                <h2>{{filmDetails.title}}
+                    <small>{{filmDetails.release_date}}</small>
+                </h2>
+                <a href="" class="btn close pull-right" >
+                    <img ng-click="modalState = 'off'" src="./img/Close.png" alt="" width="46" height="46">
+                </a>
+            </div>
+            <div class="modal-body col-lg-12">
+                <img class="col-lg-3" ng-src="https://image.tmdb.org/t/p/w500/{{filmDetails.poster_path}}" alt="">
+                <div class="modal-info col-lg-7">
+                    <div class="runtime">
+                        <h3>Sinopsis</h3>
+                        <p class="pull-right">{{filmDetails.runtime}} mins</p>
+                    </div>
+
+                    <div class="genres-ratings">
+                        <div class="genres" ng-repeat="genre in filmDetails.genres">
+                            <badge>{{genre.name}}</badge>
+                        </div>
+                        <div class="ratings pull-right">
+                            <img src="./img/Favorite.png" alt="">
+                            <badge class="pull-right" >Rating: {{filmDetails.vote_average}}</badge>
+                        </div>
+                    </div>
+                    <div class="overview">
+                        <p>{{filmDetails.overview}}</p>
+                    </div>
+                    <div class="trailer">
+                        <h3>Trailer</h3>
+                        <iframe width="560" height="315" ng-src="{{youtubeUrl(filmDetails.youtube_Url)}}" frameborder="1" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<footer>
+
+
+</footer>
+
+<!--Libraries-->
+
+<script src="./libs/angular.js"></script>
+<script src="./libs/angular-route.min.js"></script>
+<script src="./libs/ui-bootstrap-2.5.0.min.js"></script>
+
+<!--Module-->
+
+<script src="./js/app.config.js"></script>
+
+<!--Factories & Services-->
+
+<script src="./js/factories/pelisFactory.js"></script>
+
+<!--Controller-->
+
+<script src="./js/controllers/homeController.js"></script>
+
+
+
+</html>
